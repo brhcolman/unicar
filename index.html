@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicar - Caronas Universitárias</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="UNICAR: O aplicativo de caronas compartilhadas exclusivo para estudantes e professores universitários ativos. Viaje com segurança e economia.">
+  <meta name="theme-color" content="#1e40af">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Leaflet Maps CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Desktop Presentation Layout -->
+  <div class="desktop-container">
+    <div class="desktop-info">
+      <div class="badge">Protótipo Premium</div>
+      <h1>UNICAR</h1>
+      <p class="tagline">Caronas Compartilhadas Universitárias</p>
+      <p class="description">
+        Conectando estudantes e professores da mesma instituição para viagens seguras, econômicas e sustentáveis. Cadastre-se com seu e-mail acadêmico e comprove sua matrícula.
+      </p>
+      <div class="features-list">
+        <div class="feature-item">
+          <i data-lucide="shield-check"></i>
+          <span>Exclusivo para comunidade acadêmica ativa</span>
+        </div>
+        <div class="feature-item">
+          <i data-lucide="message-square"></i>
+          <span>Chat integrado em tempo real com colegas</span>
+        </div>
+        <div class="feature-item">
+          <i data-lucide="star"></i>
+          <span>Avaliação de motoristas e passageiros</span>
+        </div>
+      </div>
+      <div class="credentials-tip">
+        <strong>💡 Dica de Teste:</strong><br>
+        • Cadastro exige e-mail com <code>.edu</code> ou <code>.br</code>.<br>
+        • Use o chat para receber respostas simuladas automáticas.
+      </div>
+    </div>
+
+    <!-- Smartphone Mockup Wrapper -->
+    <div class="phone-mockup">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span class="time" id="status-time">09:41</span>
+          <div class="status-icons">
+            <i data-lucide="signal" class="status-icon"></i>
+            <i data-lucide="wifi" class="status-icon"></i>
+            <i data-lucide="battery" class="status-icon"></i>
+          </div>
+        </div>
+
+        <!-- APP SCREENS CONTAINER -->
+        <div class="app-container">
+
+          <!-- 1. SPLASH SCREEN -->
+          <div id="screen-splash" class="screen active">
+            <div class="splash-content">
+              <div class="splash-logo-container">
+                <img src="assets/logo.svg" alt="Unicar Logo" class="splash-logo">
+              </div>
+              <h2 class="splash-title">Unicar</h2>
+              <p class="splash-subtitle">Conectando caminhos, compartilhando destinos 🚗🎓</p>
+              
+              <div class="splash-actions">
+                <button class="btn btn-primary" onclick="navigateTo('screen-login')">Entrar</button>
+                <button class="btn btn-secondary" onclick="navigateTo('screen-register')">Criar Conta</button>
+              </div>
+            </div>
+            <div class="splash-footer">
+              Aplicativo de Caronas Universitárias
+            </div>
+          </div>
+
+          <!-- 2. LOGIN SCREEN -->
+          <div id="screen-login" class="screen">
+            <div class="screen-header">
+              <button class="back-btn" onclick="navigateTo('screen-splash')">
+                <i data-lucide="arrow-left"></i>
+              </button>
+              <h3>Entrar</h3>
+            </div>
+            <div class="screen-content padding-x">
+              <div class="brand-header">
+                <img src="assets/logo.svg" alt="Unicar Logo" class="small-logo">
+                <h4>Bem-vindo de volta!</h4>
+                <p>Faça login para buscar ou oferecer caronas.</p>
+              </div>
+              <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                  <label for="login-email">E-mail Institucional</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="mail"></i>
+                    <input type="email" id="login-email" placeholder="nome@instituicao.edu.br" required value="lucas.silva@unicamp.br">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="login-password">Senha</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="login-password" placeholder="Digite sua senha" required value="123456">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary margin-t">Entrar</button>
+              </form>
+              <div class="screen-footer-link">
+                Não tem uma conta? <a href="#" onclick="navigateTo('screen-register')">Cadastre-se</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. REGISTER SCREEN -->
+          <div id="screen-register" class="screen">
+            <div class="screen-header">
+              <button class="back-btn" onclick="navigateTo('screen-splash')">
+                <i data-lucide="arrow-left"></i>
+              </button>
+              <h3>Criar Conta</h3>
+            </div>
+            <div class="screen-content padding-x scrollable">
+              <div class="register-avatar-picker" onclick="cycleRegisterAvatar()">
+                <div class="avatar-circle">
+                  <img id="register-avatar-preview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop" alt="Avatar">
+                  <div class="badge-edit">
+                    <i data-lucide="camera"></i>
+                  </div>
+                </div>
+                <p>Toque para mudar a foto</p>
+              </div>
+              <form id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                  <label for="reg-name">Nome Completo</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="user"></i>
+                    <input type="text" id="reg-name" placeholder="Nome Sobrenome" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="reg-enrollment">RA / Matrícula</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="hash"></i>
+                    <input type="text" id="reg-enrollment" placeholder="Ex: 235123 ou 123456" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="reg-email">E-mail Institucional</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="mail"></i>
+                    <input type="email" id="reg-email" placeholder="exemplo@unicamp.br, @usp.br, etc." required>
+                  </div>
+                  <span class="help-text">Somente e-mails de instituições acadêmicas ativas.</span>
+                </div>
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label for="reg-course">Curso</label>
+                    <select id="reg-course" required>
+                      <option value="" disabled selected>Selecionar</option>
+                      <option value="Engenharia da Computação">Eng. Computação</option>
+                      <option value="Administração">Administração</option>
+                      <option value="Medicina">Medicina</option>
+                      <option value="Direito">Direito</option>
+                      <option value="Arquitetura">Arquitetura</option>
+                      <option value="Biologia">Biologia</option>
+                      <option value="Professor / Docente">Professor/Docente</option>
+                    </select>
+                  </div>
+                  <div class="form-group half">
+                    <label for="reg-period">Período</label>
+                    <select id="reg-period" required>
+                      <option value="" disabled selected>Período</option>
+                      <option value="Matutino">Matutino</option>
+                      <option value="Vespertino">Vespertino</option>
+                      <option value="Noturno">Noturno</option>
+                      <option value="Integral">Integral</option>
+                      <option value="Docente">Docente</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="reg-gender">Gênero</label>
+                  <select id="reg-gender" required>
+                    <option value="" disabled selected>Selecionar gênero</option>
+                    <option value="Homem">Homem</option>
+                    <option value="Mulher">Mulher</option>
+                    <option value="Trans">Trans</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Comprovante de Matrícula (PDF / Imagem)</label>
+                  <div class="file-upload-box" onclick="triggerFilePicker()">
+                    <i data-lucide="file-text"></i>
+                    <span id="file-upload-status">Enviar comprovante acadêmico</span>
+                    <input type="file" id="reg-proof" style="display:none;" onchange="handleFileChange(event)">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="reg-password">Senha</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="reg-password" placeholder="Crie uma senha" required>
+                  </div>
+                </div>
+                
+                <div class="checkbox-group">
+                  <input type="checkbox" id="reg-terms" checked required>
+                  <label for="reg-terms">Criar conta com o seu email institucional. Apenas universitários ativos podem.</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary margin-t">Confirmar</button>
+              </form>
+              <div class="screen-footer-link" style="padding-bottom: 24px;">
+                Já tem uma conta? <a href="#" onclick="navigateTo('screen-login')">Entrar</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. HOME / SEARCH SCREEN -->
+          <div id="screen-home" class="screen">
+            <div class="home-header">
+              <div class="home-title-area">
+                <img src="assets/logo.svg" alt="Unicar Logo" class="mini-logo">
+                <span class="app-brand-name">Unicar <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i></span>
+              </div>
+              <div class="notification-badge-btn" onclick="openNotificationsModal()">
+                <i data-lucide="bell"></i>
+                <span class="badge-dot"></span>
+              </div>
+            </div>
+            
+            <div class="screen-content scrollable padding-b">
+              <!-- Search Block -->
+              <div class="search-card">
+                <div class="route-inputs">
+                  <div class="input-with-marker">
+                    <span class="marker-dot green"></span>
+                    <input type="text" id="search-origin" placeholder="Origem (Ex: Unicamp)" value="Unicamp">
+                  </div>
+                  <div class="route-divider"></div>
+                  <div class="input-with-marker">
+                    <span class="marker-dot blue"></span>
+                    <input type="text" id="search-dest" placeholder="Destino (Ex: Centro de Campinas)" value="Centro de Campinas">
+                  </div>
+                </div>
+                
+                <div class="search-options">
+                  <div class="search-option-item-inputs">
+                    <div class="date-input-wrapper">
+                      <i data-lucide="calendar"></i>
+                      <input type="date" id="search-date" onchange="performRideSearch()" required>
+                    </div>
+                    <div class="time-input-wrapper">
+                      <i data-lucide="clock"></i>
+                      <input type="time" id="search-time" onchange="performRideSearch()" required>
+                    </div>
+                  </div>
+                  <button class="swap-btn" onclick="swapLocations()">
+                    <i data-lucide="arrow-up-down"></i>
+                  </button>
+                </div>
+                
+                <button class="btn btn-primary search-btn" onclick="performRideSearch()">
+                  <i data-lucide="search"></i> Procurar Carona
+                </button>
+
+                <!-- Gender Safety Filter Toggle -->
+                <div class="gender-filter-group" id="gender-safety-filter-container" style="display: none;">
+                  <div class="toggle-switch-label">
+                    <i data-lucide="shield-check" class="text-pink"></i>
+                    <span>Apenas Motoristas Mulheres/Trans</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="gender-safety-toggle" onchange="performRideSearch()">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Available Rides Section -->
+              <div class="rides-section">
+                <div class="section-header">
+                  <h5>Caronas Acadêmicas Disponíveis</h5>
+                  <span class="badge-tag">Premium</span>
+                </div>
+                
+                <div id="rides-list-container" class="rides-list">
+                  <!-- Rides will be dynamically generated here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Bar Navigation -->
+            <div class="tab-bar">
+              <div class="tab-item active" onclick="navigateToTab('screen-home')">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-my-rides')">
+                <i data-lucide="car"></i>
+                <span>Minhas Caronas</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-chats-list')">
+                <i data-lucide="message-square"></i>
+                <span>Mensagens</span>
+                <span class="chat-badge" id="global-chat-badge">1</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-profile')">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. CREATE RIDE SCREEN -->
+          <div id="screen-create-ride" class="screen">
+            <div class="screen-header">
+              <button class="back-btn" onclick="navigateTo('screen-home')">
+                <i data-lucide="arrow-left"></i>
+              </button>
+              <h3>Oferecer Carona</h3>
+            </div>
+            <div class="screen-content padding-x scrollable padding-b">
+              <form id="create-ride-form" onsubmit="handleCreateRide(event)">
+                <div class="form-group">
+                  <label for="ride-origin">Local de Origem</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="map-pin" class="text-green"></i>
+                    <input type="text" id="ride-origin" placeholder="Instituição ou endereço" required value="Unicamp">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="ride-dest">Local de Destino</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="navigation" class="text-blue"></i>
+                    <input type="text" id="ride-dest" placeholder="Cidade, campus ou endereço" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label for="ride-date">Data</label>
+                    <input type="date" id="ride-date" required>
+                  </div>
+                  <div class="form-group half">
+                    <label for="ride-time">Horário</label>
+                    <input type="time" id="ride-time" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label for="ride-seats">Vagas</label>
+                    <select id="ride-seats" required>
+                      <option value="1">1 vaga</option>
+                      <option value="2">2 vagas</option>
+                      <option value="3" selected>3 vagas</option>
+                      <option value="4">4 vagas</option>
+                    </select>
+                  </div>
+                  <div class="form-group half">
+                    <label for="ride-contribution">Contribuição (R$)</label>
+                    <div class="input-icon-wrapper">
+                      <span class="currency-prefix">R$</span>
+                      <input type="number" id="ride-contribution" placeholder="Opcional" min="0" value="8">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="ride-car-desc">Carro (Modelo / Cor)</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="car"></i>
+                    <input type="text" id="ride-car-desc" placeholder="Ex: Corolla Azul" required value="Toyota Corolla 2018">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="ride-car-plate">Placa do Veículo</label>
+                  <div class="input-icon-wrapper">
+                    <i data-lucide="credit-card"></i>
+                    <input type="text" id="ride-car-plate" placeholder="Ex: ABC1D23" required value="ABC-3D45">
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary margin-t">Publicar Carona</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- 6. MY RIDES SCREEN -->
+          <div id="screen-my-rides" class="screen">
+            <div class="screen-header">
+              <h3>Minhas Caronas</h3>
+            </div>
+            
+            <div class="rides-tab-selector">
+              <button class="ride-tab-btn active" id="tab-passenger-btn" onclick="switchMyRidesTab('passenger')">Passageiro</button>
+              <button class="ride-tab-btn" id="tab-driver-btn" onclick="switchMyRidesTab('driver')">Motorista</button>
+            </div>
+
+            <div class="screen-content scrollable padding-b" style="padding-top: 10px;">
+              <div id="my-rides-list" class="rides-list padding-x">
+                <!-- Will be dynamically populated -->
+              </div>
+              
+              <!-- Offer ride shortcut button for drivers -->
+              <div class="offer-ride-container padding-x" id="offer-ride-shortcut" style="display: none; margin-top: 15px;">
+                <button class="btn btn-secondary-outline" onclick="navigateTo('screen-create-ride')">
+                  <i data-lucide="plus"></i> Oferecer Nova Carona
+                </button>
+              </div>
+            </div>
+
+            <!-- Tab Bar Navigation -->
+            <div class="tab-bar">
+              <div class="tab-item" onclick="navigateToTab('screen-home')">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+              </div>
+              <div class="tab-item active" onclick="navigateToTab('screen-my-rides')">
+                <i data-lucide="car"></i>
+                <span>Minhas Caronas</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-chats-list')">
+                <i data-lucide="message-square"></i>
+                <span>Mensagens</span>
+                <span class="chat-badge" id="global-chat-badge-myrides">1</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-profile')">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. CHATS LIST SCREEN -->
+          <div id="screen-chats-list" class="screen">
+            <div class="screen-header">
+              <h3>Mensagens</h3>
+            </div>
+            <div class="screen-content scrollable padding-b">
+              <div id="chats-list-container" class="chats-list-view">
+                <!-- Dynamically populated list of chat rooms -->
+              </div>
+            </div>
+
+            <!-- Tab Bar Navigation -->
+            <div class="tab-bar">
+              <div class="tab-item" onclick="navigateToTab('screen-home')">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-my-rides')">
+                <i data-lucide="car"></i>
+                <span>Minhas Caronas</span>
+              </div>
+              <div class="tab-item active" onclick="navigateToTab('screen-chats-list')">
+                <i data-lucide="message-square"></i>
+                <span>Mensagens</span>
+                <span class="chat-badge" id="global-chat-badge-chats">1</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-profile')">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. CHAT DETAILS SCREEN -->
+          <div id="screen-chat-details" class="screen">
+            <div class="chat-header">
+              <button class="back-btn" onclick="navigateTo('screen-chats-list')">
+                <i data-lucide="arrow-left"></i>
+              </button>
+              <div class="chat-partner-info">
+                <img id="chat-partner-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop" alt="Partner">
+                <div>
+                  <h4 id="chat-partner-name">Carregando...</h4>
+                  <span id="chat-partner-status">Online</span>
+                </div>
+              </div>
+              <button class="call-btn" onclick="alert('Funcionalidade de ligação segura em desenvolvimento.')">
+                <i data-lucide="phone"></i>
+              </button>
+            </div>
+
+            <!-- Chat messages box -->
+            <div class="chat-messages-area" id="chat-messages-container">
+              <!-- Dynamically populated with message bubbles -->
+            </div>
+
+            <!-- Chat input bar -->
+            <form id="chat-input-form" class="chat-input-bar" onsubmit="handleSendChatMessage(event)">
+              <input type="text" id="chat-message-input" placeholder="Digite uma mensagem..." autocomplete="off">
+              <button type="submit" class="send-message-btn">
+                <i data-lucide="send"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- 9. PROFILE SCREEN -->
+          <div id="screen-profile" class="screen">
+            <!-- Header layout inspired by the layout in Image 3 -->
+            <div class="profile-top-banner">
+              <div class="profile-header-actions">
+                <button class="back-btn" onclick="navigateTo('screen-home')" style="color: white;">
+                  <i data-lucide="arrow-left"></i>
+                </button>
+                <h3>Perfil</h3>
+                <button class="more-btn" onclick="showProfileOptions()">
+                  <i data-lucide="more-horizontal"></i>
+                </button>
+              </div>
+
+              <!-- Main user block -->
+              <div class="profile-hero">
+                <div class="profile-avatar-wrapper">
+                  <img id="profile-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop" alt="Lucas Silva">
+                </div>
+                <h2 id="profile-name">Lucas Silva</h2>
+                <p class="profile-tagline" id="profile-tagline">Engenharia da Computação • <span class="profile-uni-badge"><i data-lucide="graduation-cap" style="width:12px; height:12px; display:inline-block; margin-right:2px; vertical-align:middle;"></i> Unicamp</span></p>
+                <div class="profile-rating">
+                  <div class="stars" id="profile-stars">
+                    <!-- Dynamic rating stars -->
+                  </div>
+                  <span class="rating-val" id="profile-rating-num">4.8</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen-content scrollable padding-b" style="margin-top: -15px;">
+              <!-- Vehicle Details card from Image 3 -->
+              <div class="profile-card car-card padding-x">
+                <div class="car-info-row">
+                  <div class="car-details">
+                    <h4 id="profile-car-model">Toyota Corolla 2018</h4>
+                    <div class="plate-badge-row">
+                      <span class="car-icon-tag"><i data-lucide="car"></i></span>
+                      <span class="plate-badge" id="profile-car-plate">ABC-3D45</span>
+                      <span class="plate-badge mini" id="profile-car-plate-alt">ABC-3D45</span>
+                      <i data-lucide="chevrons-right" class="plate-arrow"></i>
+                    </div>
+                  </div>
+                  <div class="car-avatar-img">
+                    <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=150&auto=format&fit=crop" alt="Car">
+                  </div>
+                </div>
+                
+                <div class="car-stats-row">
+                  <div class="car-stat-item">
+                    <i data-lucide="shield-check"></i>
+                    <span id="profile-rides-count">37 caronas realizadas</span>
+                  </div>
+                  <div class="car-stat-item">
+                    <i data-lucide="calendar"></i>
+                    <span id="profile-member-since">Desde jan. 2024</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Menu Items from Image 3 -->
+              <div class="profile-menu padding-x">
+                <div class="menu-item" onclick="openEditProfile()">
+                  <div class="menu-icon-label">
+                    <i data-lucide="edit-3"></i>
+                    <span>Editar Perfil</span>
+                  </div>
+                  <i data-lucide="chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="alert('Carregando histórico completo...')">
+                  <div class="menu-icon-label">
+                    <i data-lucide="history"></i>
+                    <span>Histórico de Viagens</span>
+                  </div>
+                  <i data-lucide="chevron-right"></i>
+                </div>
+                <div class="menu-item" onclick="alert('Configurações em desenvolvimento.')">
+                  <div class="menu-icon-label">
+                    <i data-lucide="settings"></i>
+                    <span>Configurações</span>
+                  </div>
+                  <i data-lucide="chevron-right"></i>
+                </div>
+              </div>
+
+              <!-- Secondary Profile Block (from Image 3) -->
+              <div class="profile-secondary-card padding-x">
+                <div class="secondary-user-row">
+                  <img id="profile-avatar-mini" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop" alt="User">
+                  <div class="secondary-user-info">
+                    <h5 id="profile-name-mini">Lucas Silva</h5>
+                    <p id="profile-details-mini">Engenharia da Computação • Unicamp</p>
+                    <span class="license-plate-tag" id="profile-car-plate-mini">ABC-3D45</span>
+                  </div>
+                  <i data-lucide="chevron-right" class="arrow-right-icon"></i>
+                </div>
+                <div class="secondary-actions-row">
+                  <button class="btn btn-outline-grey flex-1" onclick="openEditProfile()">
+                    <i data-lucide="edit"></i> Editar Perfil
+                  </button>
+                  <button class="btn btn-outline-blue flex-1" onclick="triggerLateAlert()">
+                    <i data-lucide="clock"></i> Avisar que vai atrasar
+                  </button>
+                </div>
+              </div>
+
+              <div class="logout-container padding-x">
+                <button class="btn btn-danger-outline" onclick="handleLogout()">
+                  <i data-lucide="log-out"></i> Sair da Conta
+                </button>
+              </div>
+            </div>
+
+            <!-- Tab Bar Navigation -->
+            <div class="tab-bar">
+              <div class="tab-item" onclick="navigateToTab('screen-home')">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-my-rides')">
+                <i data-lucide="car"></i>
+                <span>Minhas Caronas</span>
+              </div>
+              <div class="tab-item" onclick="navigateToTab('screen-chats-list')">
+                <i data-lucide="message-square"></i>
+                <span>Mensagens</span>
+                <span class="chat-badge" id="global-chat-badge-profile">1</span>
+              </div>
+              <div class="tab-item active" onclick="navigateToTab('screen-profile')">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- APP CONTAINER END -->
+
+        <!-- MODAL: EDIT PROFILE -->
+        <div id="modal-edit-profile" class="app-modal">
+          <div class="modal-dialog">
+            <div class="modal-header">
+              <h4>Editar Perfil</h4>
+              <button class="close-btn" onclick="closeEditProfile()"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body scrollable">
+              <form id="edit-profile-form" onsubmit="handleSaveProfile(event)">
+                <div class="form-group">
+                  <label for="edit-name">Nome Completo</label>
+                  <input type="text" id="edit-name" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-course">Curso</label>
+                  <input type="text" id="edit-course" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-gender">Gênero</label>
+                  <select id="edit-gender" required>
+                    <option value="Homem">Homem</option>
+                    <option value="Mulher">Mulher</option>
+                    <option value="Trans">Trans</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="edit-car-model">Modelo do Carro</label>
+                  <input type="text" id="edit-car-model" placeholder="Ex: Honda Civic 2020">
+                </div>
+                <div class="form-group">
+                  <label for="edit-car-plate">Placa</label>
+                  <input type="text" id="edit-car-plate" placeholder="Ex: ABC1D23">
+                </div>
+                <button type="submit" class="btn btn-primary margin-t">Salvar Alterações</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: RATING / AVALIAÇÃO -->
+        <div id="modal-rating" class="app-modal">
+          <div class="modal-dialog">
+            <div class="modal-header">
+              <h4>Como foi sua carona?</h4>
+              <button class="close-btn" onclick="closeRatingModal()"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body align-center">
+              <p>Avalie sua experiência com o colega universitário:</p>
+              <h5 id="rating-driver-name" class="margin-y-sm">Thiago Santos</h5>
+              
+              <!-- Stars selectors -->
+              <div class="stars-select-row">
+                <i data-lucide="star" class="star-select" data-star="1" onclick="setSelectStars(1)"></i>
+                <i data-lucide="star" class="star-select" data-star="2" onclick="setSelectStars(2)"></i>
+                <i data-lucide="star" class="star-select" data-star="3" onclick="setSelectStars(3)"></i>
+                <i data-lucide="star" class="star-select" data-star="4" onclick="setSelectStars(4)"></i>
+                <i data-lucide="star" class="star-select" data-star="5" onclick="setSelectStars(5)"></i>
+              </div>
+
+              <div class="form-group margin-t" style="width: 100%; text-align: left;">
+                <label for="rating-comment">Mensagem / Observação</label>
+                <textarea id="rating-comment" rows="3" placeholder="Ex: Excelente motorista, papo ótimo e muito pontual."></textarea>
+              </div>
+
+              <button class="btn btn-primary margin-t" onclick="submitRating()">Enviar Avaliação</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: MAP / ROTA -->
+        <div id="modal-route-map" class="app-modal">
+          <div class="modal-dialog">
+            <div class="modal-header">
+              <h4>Rota da Carona</h4>
+              <button class="close-btn" onclick="closeMapModal()"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 0; position: relative;">
+              <!-- Map Div -->
+              <div id="route-map" style="width: 100%; height: 320px; z-index: 1;"></div>
+              
+              <!-- Address Details overlay -->
+              <div class="map-details-overlay">
+                <h5 id="map-route-title">Origem → Destino</h5>
+                <p id="map-route-desc">Carregando rota no mapa...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL: NOTIFICATIONS -->
+        <div id="modal-notifications" class="app-modal">
+          <div class="modal-dialog">
+            <div class="modal-header">
+              <h4>Notificações</h4>
+              <button class="close-btn" onclick="closeNotificationsModal()"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body scrollable">
+              <div class="notifications-list" id="notifications-container">
+                <!-- Notifications will be populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- PHONE SCREEN END -->
+    </div> <!-- PHONE MOCKUP END -->
+  </div> <!-- DESKTOP CONTAINER END -->
+
+  <!-- App Main Logic Script -->
+  <script src="app.js"></script>
+</body>
+</html>
