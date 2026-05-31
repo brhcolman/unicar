@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="wheelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" /> <!-- Light Green -->
+      <stop offset="100%" stop-color="#15803d" /> <!-- Dark Green -->
+    </linearGradient>
+    <linearGradient id="capGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f1f5f9" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Steering Wheel Outer Ring -->
+  <circle cx="100" cy="120" r="50" fill="none" stroke="url(#wheelGrad)" stroke-width="12" filter="url(#shadow)" />
+  
+  <!-- Steering Wheel Spokes -->
+  <path d="M 100 120 L 100 162" stroke="url(#wheelGrad)" stroke-width="10" stroke-linecap="round" />
+  <path d="M 100 120 L 58 108" stroke="url(#wheelGrad)" stroke-width="10" stroke-linecap="round" />
+  <path d="M 100 120 L 142 108" stroke="url(#wheelGrad)" stroke-width="10" stroke-linecap="round" />
+  
+  <!-- Center Hub -->
+  <circle cx="100" cy="120" r="14" fill="#166534" stroke="#ffffff" stroke-width="2" />
+  <circle cx="100" cy="120" r="6" fill="#4ade80" />
+
+  <!-- Graduation Cap (Capelo) -->
+  <g filter="url(#shadow)">
+    <!-- Skull Cap (base) -->
+    <path d="M 72 70 L 72 82 C 72 89, 128 89, 128 82 L 128 70 Z" fill="url(#capGrad)" stroke="#cbd5e1" stroke-width="1" />
+    <path d="M 70 80 C 70 88, 130 88, 130 80" fill="none" stroke="#e2e8f0" stroke-width="2" />
+    
+    <!-- Rhombus (top board) -->
+    <polygon points="100,40 155,60 100,80 45,60" fill="url(#capGrad)" stroke="#cbd5e1" stroke-width="1.5" />
+    
+    <!-- Tassel (Pingente) -->
+    <!-- Button on top -->
+    <circle cx="100" cy="60" r="4" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1" />
+    <!-- String and Tassel -->
+    <path d="M 100 60 C 118 62, 136 70, 138 82" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" />
+    <!-- Tassel Brush -->
+    <polygon points="138,82 135,95 141,95" fill="#ca8a04" />
+  </g>
+</svg>
